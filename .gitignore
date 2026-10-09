@@ -1,0 +1,33 @@
+# Secrets (never commit)
+.env
+.env.*
+serviceAccountKey.json
+*.pem
+.firebase/
+firebase-debug.log
+
+# Node / frontend
+node_modules/
+dist/
+build/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ML artifacts (these go to Azure Blob, not git)
+*.zip
+*.pt
+*.pth
+*.onnx
+*.mp4
+runs/
+logs/
+models/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/.build/

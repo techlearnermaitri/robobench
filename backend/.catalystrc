@@ -1,0 +1,30 @@
+{
+  "defaults": {
+    "project": 1,
+    "env": 1
+  },
+  "actives": {
+    "project": 1,
+    "env": 1
+  },
+  "projects": [
+    {
+      "idx": 1,
+      "id": "72757000000028001",
+      "name": "robobench",
+      "domain": {
+        "id": "50046712753",
+        "name": "robobench-60090576328.development"
+      },
+      "timezone": "Asia/Kolkata",
+      "env": [
+        {
+          "idx": 1,
+          "id": "60090576328",
+          "name": "Development",
+          "type": 3
+        }
+      ]
+    }
+  ]
+}
