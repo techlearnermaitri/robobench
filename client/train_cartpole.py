@@ -1,17 +1,17 @@
-"""Train a CartPole agent locally with Stable-Baselines3, then submit the
-results to a RoboBench project through the Catalyst API.
+"""Train a CartPole agent locally with Stable-Baselines3, upload the model to
+Azure Blob Storage, and submit the results to a RoboBench project.
 
 Usage (from robobench/client, venv active):
 
     python train_cartpole.py --project-id YOUR_PROJECT_ID --algo PPO
-    python train_cartpole.py --project-id YOUR_PROJECT_ID --algo A2C
-    python train_cartpole.py --project-id YOUR_PROJECT_ID --algo DQN
+    python train_cartpole.py --project-id YOUR_PROJECT_ID --algo A2C --no-upload
 
 Or set ROBOBENCH_PROJECT_ID in client/.env and skip --project-id.
 """
 
 import argparse
 import os
+import tempfile
 import time
 
 from stable_baselines3 import A2C, DQN, PPO
@@ -30,6 +30,8 @@ def main():
     p.add_argument("--timesteps", type=int, default=50_000)
     p.add_argument("--eval-episodes", type=int, default=100)
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--no-upload", action="store_true",
+                   help="skip uploading the model file to Azure")
     args = p.parse_args()
 
     if not args.project_id:
@@ -51,15 +53,24 @@ def main():
     print(f"mean_reward={mean_reward:.1f}  std={std_reward:.1f}  "
           f"time={training_time:.1f}s")
 
-    exp_id = robobench.submit(
-        args.project_id,
-        args.algo,
-        ENV_ID,
-        mean_reward,
-        std_reward,
-        args.eval_episodes,
-        training_time,
-    )
+    artifacts = {}
+    with tempfile.TemporaryDirectory() as tmp:
+        if not args.no_upload:
+            base = os.path.join(tmp, f"{args.algo.lower()}_cartpole")
+            model.save(base)  # Stable-Baselines3 adds the .zip extension
+            print("Uploading model to Azure...")
+            artifacts["model"] = robobench.upload_file(args.project_id, base + ".zip")
+
+        exp_id = robobench.submit(
+            args.project_id,
+            args.algo,
+            ENV_ID,
+            mean_reward,
+            std_reward,
+            args.eval_episodes,
+            training_time,
+            artifacts=artifacts,
+        )
     print(f"Saved experiment {exp_id}")
 
 

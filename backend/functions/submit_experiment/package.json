@@ -4,6 +4,7 @@
 	"main": "index.js",
 	"author": "maitri.more.btech2028@atlasskilltech.university",
 	"dependencies": {
+		"@azure/storage-blob": "^12.34.0",
 		"@zcatalyst/auth": "latest",
 		"@zcatalyst/cache": "latest",
 		"express": "^5.2.1",

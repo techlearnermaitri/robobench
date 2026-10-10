@@ -1,80 +1,56 @@
-[debug] [2026-10-09T16:30:02.427Z] : 
-[debug] [2026-10-09T16:30:02.428Z] : ----------------------------------------------------------------------
-[debug] [2026-10-09T16:30:02.429Z] : Command:      /opt/homebrew/Cellar/node/25.9.0_1/bin/node /opt/homebrew/bin/catalyst serve
-[debug] [2026-10-09T16:30:02.429Z] : CLI Version:  1.28.0
-[debug] [2026-10-09T16:30:02.429Z] : Platform:     darwin
-[debug] [2026-10-09T16:30:02.429Z] : Node Version: v25.9.0
-[debug] [2026-10-09T16:30:02.429Z] : Time:         Fri Oct 09 2026 22:00:02 GMT+0530 (India Standard Time)
-[debug] [2026-10-09T16:30:02.429Z] : ----------------------------------------------------------------------
-[debug] [2026-10-09T16:30:02.429Z] : 
-[debug] [2026-10-09T16:30:02.981Z] : > authorizing via signed-in user option
-[debug] [2026-10-09T16:30:02.981Z] : > command requires scopes: ["ZohoCatalyst.projects.ALL","ZohoCatalyst.apigateway.apis.READ","ZohoCatalyst.apigateway.READ","ZohoCatalyst.segments.ALL","ZohoCatalyst.cache.READ","ZohoCatalyst.cache.CREATE","ZohoCatalyst.cache.DELETE","ZohoCatalyst.projects.ALL","ZohoCatalyst.cron.ALL","ZohoCatalyst.zcql.CREATE","ZohoCatalyst.projects.users.READ","ZohoCatalyst.projects.users.CREATE","ZohoCatalyst.projects.users.DELETE","ZohoCatalyst.projects.users.UPDATE","ZohoCatalyst.authentication.CREATE","ZohoCatalyst.email.CREATE","ZohoCatalyst.tables.ALL","ZohoCatalyst.tables.rows.ALL","ZohoCatalyst.tables.columns.ALL","ZohoCatalyst.tables.bulk.CREATE","ZohoCatalyst.tables.bulk.READ","ZohoCatalyst.folders.ALL","ZohoCatalyst.files.CREATE","ZohoCatalyst.files.READ","ZohoCatalyst.files.DELETE","ZohoCatalyst.functions.ALL","ZohoCatalyst.functions.EXECUTE","ZohoCatalyst.eventlistners.ALL","ZohoCatalyst.eventlisteners.produce","ZohoCatalyst.security.rules.Read","ZohoCatalyst.security.rules.Update","ZohoCatalyst.notifications.mobile","ZohoCatalyst.notifications.web","ZohoCatalyst.search.READ","ZohoCatalyst.mlkit.READ","QuickML.deployment.READ","ZohoCatalyst.pdfshot.execute","ZohoCatalyst.grid.READ","ZohoCatalyst.grid.terminate","ZohoCatalyst.circuits.execution.DELETE","ZohoCatalyst.circuits.execution.READ","ZohoCatalyst.circuits.execute","ZohoCatalyst.appsail.Read","ZohoCatalyst.jobpool.READ","ZohoCatalyst.job.ALL","ZohoCatalyst.nosql.READ","ZohoCatalyst.nosql.rows.ALL"]
-[debug] [2026-10-09T16:30:03.062Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.in/baas/v1/project/72757000000028001 
+[debug] [2026-10-10T06:08:57.146Z] : 
+[debug] [2026-10-10T06:08:57.148Z] : ----------------------------------------------------------------------
+[debug] [2026-10-10T06:08:57.148Z] : Command:      /opt/homebrew/Cellar/node/25.9.0_1/bin/node /opt/homebrew/bin/catalyst serve
+[debug] [2026-10-10T06:08:57.148Z] : CLI Version:  1.28.0
+[debug] [2026-10-10T06:08:57.148Z] : Platform:     darwin
+[debug] [2026-10-10T06:08:57.148Z] : Node Version: v25.9.0
+[debug] [2026-10-10T06:08:57.148Z] : Time:         Sat Oct 10 2026 11:38:57 GMT+0530 (India Standard Time)
+[debug] [2026-10-10T06:08:57.148Z] : ----------------------------------------------------------------------
+[debug] [2026-10-10T06:08:57.148Z] : 
+[debug] [2026-10-10T06:08:57.496Z] : > authorizing via signed-in user option
+[debug] [2026-10-10T06:08:57.496Z] : > command requires scopes: ["ZohoCatalyst.projects.ALL","ZohoCatalyst.apigateway.apis.READ","ZohoCatalyst.apigateway.READ","ZohoCatalyst.segments.ALL","ZohoCatalyst.cache.READ","ZohoCatalyst.cache.CREATE","ZohoCatalyst.cache.DELETE","ZohoCatalyst.projects.ALL","ZohoCatalyst.cron.ALL","ZohoCatalyst.zcql.CREATE","ZohoCatalyst.projects.users.READ","ZohoCatalyst.projects.users.CREATE","ZohoCatalyst.projects.users.DELETE","ZohoCatalyst.projects.users.UPDATE","ZohoCatalyst.authentication.CREATE","ZohoCatalyst.email.CREATE","ZohoCatalyst.tables.ALL","ZohoCatalyst.tables.rows.ALL","ZohoCatalyst.tables.columns.ALL","ZohoCatalyst.tables.bulk.CREATE","ZohoCatalyst.tables.bulk.READ","ZohoCatalyst.folders.ALL","ZohoCatalyst.files.CREATE","ZohoCatalyst.files.READ","ZohoCatalyst.files.DELETE","ZohoCatalyst.functions.ALL","ZohoCatalyst.functions.EXECUTE","ZohoCatalyst.eventlistners.ALL","ZohoCatalyst.eventlisteners.produce","ZohoCatalyst.security.rules.Read","ZohoCatalyst.security.rules.Update","ZohoCatalyst.notifications.mobile","ZohoCatalyst.notifications.web","ZohoCatalyst.search.READ","ZohoCatalyst.mlkit.READ","QuickML.deployment.READ","ZohoCatalyst.pdfshot.execute","ZohoCatalyst.grid.READ","ZohoCatalyst.grid.terminate","ZohoCatalyst.circuits.execution.DELETE","ZohoCatalyst.circuits.execution.READ","ZohoCatalyst.circuits.execute","ZohoCatalyst.appsail.Read","ZohoCatalyst.jobpool.READ","ZohoCatalyst.job.ALL","ZohoCatalyst.nosql.READ","ZohoCatalyst.nosql.rows.ALL"]
+[debug] [2026-10-10T06:08:57.578Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.in/baas/v1/project/72757000000028001 
 
-[debug] [2026-10-09T16:30:03.235Z] : <<<< HTTP RESPONSE : 200
-Response Headers: {"server":"ZGS","date":"Fri, 09 Oct 2026 16:30:03 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
+[debug] [2026-10-10T06:08:57.729Z] : <<<< HTTP RESPONSE : 200
+Response Headers: {"server":"ZGS","date":"Sat, 10 Oct 2026 06:08:57 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
 
-[debug] [2026-10-09T16:30:03.238Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.in/baas/v1/project/72757000000028001/environment 
+[debug] [2026-10-10T06:08:57.731Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.in/baas/v1/project/72757000000028001/environment 
 
-[debug] [2026-10-09T16:30:03.288Z] : <<<< HTTP RESPONSE : 200
-Response Headers: {"server":"ZGS","date":"Fri, 09 Oct 2026 16:30:03 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
+[debug] [2026-10-10T06:08:57.768Z] : <<<< HTTP RESPONSE : 200
+Response Headers: {"server":"ZGS","date":"Sat, 10 Oct 2026 06:08:57 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
 
-[debug] [2026-10-09T16:30:03.333Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.in/baas/get-details 
+[debug] [2026-10-10T06:08:57.810Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.in/baas/get-details 
 Query params: {"feature_name":"runtime"}
 
-[debug] [2026-10-09T16:30:03.383Z] : <<<< HTTP RESPONSE : 200
-Response Headers: {"server":"ZGS","date":"Fri, 09 Oct 2026 16:30:03 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
+[debug] [2026-10-10T06:08:57.864Z] : <<<< HTTP RESPONSE : 200
+Response Headers: {"server":"ZGS","date":"Sat, 10 Oct 2026 06:08:57 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
 
-[debug] [2026-10-09T16:30:03.387Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.in/baas/v1/project/72757000000028001/function 
+[debug] [2026-10-10T06:08:57.866Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.in/baas/v1/project/72757000000028001/function 
 Query params: {"type":"basicio,event,cron,applogic,integration,browser_logic,job"}
 
-[debug] [2026-10-09T16:30:03.451Z] : <<<< HTTP RESPONSE : 200
-Response Headers: {"server":"ZGS","date":"Fri, 09 Oct 2026 16:30:03 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
+[debug] [2026-10-10T06:08:57.911Z] : <<<< HTTP RESPONSE : 200
+Response Headers: {"server":"ZGS","date":"Sat, 10 Oct 2026 06:08:57 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
 
-[debug] [2026-10-09T16:30:03.453Z] : unknown eol undefined hence skipping check
-[debug] [2026-10-09T16:30:03.457Z] : Node binary for stack node24 is at /opt/homebrew/opt/node@24/bin/node
-[debug] [2026-10-09T16:30:06.769Z] : No API Gateway configuration found. Skipping API Gateway rules
-[info] [2026-10-09T16:30:06.771Z] : 
-[info] [2026-10-09T16:30:06.772Z] :  >>>>>>>>>>>>> Advanced I/O <<<<<<<<<<< 
-[info] [2026-10-09T16:30:06.772Z] : ℹ submit_experiment: http://localhost:3000/server/submit_experiment/
-[info] [2026-10-09T16:30:06.772Z] : 
-[info] [2026-10-09T16:32:34.704Z] : [1791563554704]  "POST"  "/server/submit_experiment/"
-[debug] [2026-10-09T16:32:34.705Z] : >>>> HTTP REQUEST : GET https://robobench-60090576328.development.catalystserverless.in/baas/v1/project/72757000000028001/project-user/current 
+[debug] [2026-10-10T06:08:57.912Z] : unknown eol undefined hence skipping check
+[debug] [2026-10-10T06:08:57.915Z] : Node binary for stack node24 is at /opt/homebrew/opt/node@24/bin/node
+[debug] [2026-10-10T06:09:03.832Z] : No API Gateway configuration found. Skipping API Gateway rules
+[info] [2026-10-10T06:09:03.834Z] : 
+[info] [2026-10-10T06:09:03.834Z] :  >>>>>>>>>>>>> Advanced I/O <<<<<<<<<<< 
+[info] [2026-10-10T06:09:03.835Z] : ℹ submit_experiment: http://localhost:3000/server/submit_experiment/
+[info] [2026-10-10T06:09:03.835Z] : 
+[info] [2026-10-10T06:09:38.146Z] : [1791612578146]  "POST"  "/server/submit_experiment/upload-url"
+[debug] [2026-10-10T06:09:38.147Z] : >>>> HTTP REQUEST : GET https://robobench-60090576328.development.catalystserverless.in/baas/v1/project/72757000000028001/project-user/current 
 
-[debug] [2026-10-09T16:32:34.904Z] : <<<< HTTP RESPONSE : 401
-Response Headers: {"server":"ZGS","date":"Fri, 09 Oct 2026 16:32:35 GMT","content-type":"application/json;charset=ISO-8859-1","content-length":"91","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
+[debug] [2026-10-10T06:09:38.280Z] : <<<< HTTP RESPONSE : 401
+Response Headers: {"server":"ZGS","date":"Sat, 10 Oct 2026 06:09:38 GMT","content-type":"application/json;charset=ISO-8859-1","content-length":"91","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
 
-[debug] [2026-10-09T16:32:34.905Z] : Response Body : {"status":"failure","data":{"error_code":"INVALID_TOKEN","message":"invalid oauth token"}}
+[debug] [2026-10-10T06:09:38.281Z] : Response Body : {"status":"failure","data":{"error_code":"INVALID_TOKEN","message":"invalid oauth token"}}
 
-[info] [2026-10-09T16:39:45.697Z] : [1791563985696]  "POST"  "/server/submit_experiment/"
-[debug] [2026-10-09T16:39:45.697Z] : >>>> HTTP REQUEST : GET https://robobench-60090576328.development.catalystserverless.in/baas/v1/project/72757000000028001/project-user/current 
+[info] [2026-10-10T06:09:40.062Z] : [1791612580062]  "POST"  "/server/submit_experiment/"
+[debug] [2026-10-10T06:09:40.062Z] : >>>> HTTP REQUEST : GET https://robobench-60090576328.development.catalystserverless.in/baas/v1/project/72757000000028001/project-user/current 
 
-[debug] [2026-10-09T16:39:45.860Z] : <<<< HTTP RESPONSE : 401
-Response Headers: {"server":"ZGS","date":"Fri, 09 Oct 2026 16:39:46 GMT","content-type":"application/json;charset=ISO-8859-1","content-length":"91","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
+[debug] [2026-10-10T06:09:40.146Z] : <<<< HTTP RESPONSE : 401
+Response Headers: {"server":"ZGS","date":"Sat, 10 Oct 2026 06:09:40 GMT","content-type":"application/json;charset=ISO-8859-1","content-length":"91","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
 
-[debug] [2026-10-09T16:39:45.861Z] : Response Body : {"status":"failure","data":{"error_code":"INVALID_TOKEN","message":"invalid oauth token"}}
-
-[info] [2026-10-09T16:42:55.783Z] : [1791564175782]  "POST"  "/server/submit_experiment/"
-[debug] [2026-10-09T16:42:55.783Z] : >>>> HTTP REQUEST : GET https://robobench-60090576328.development.catalystserverless.in/baas/v1/project/72757000000028001/project-user/current 
-
-[debug] [2026-10-09T16:42:56.029Z] : <<<< HTTP RESPONSE : 401
-Response Headers: {"server":"ZGS","date":"Fri, 09 Oct 2026 16:42:56 GMT","content-type":"application/json;charset=ISO-8859-1","content-length":"91","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
-
-[debug] [2026-10-09T16:42:56.030Z] : Response Body : {"status":"failure","data":{"error_code":"INVALID_TOKEN","message":"invalid oauth token"}}
-
-[info] [2026-10-09T16:43:49.817Z] : [1791564229816]  "POST"  "/server/submit_experiment/"
-[debug] [2026-10-09T16:43:49.818Z] : >>>> HTTP REQUEST : GET https://robobench-60090576328.development.catalystserverless.in/baas/v1/project/72757000000028001/project-user/current 
-
-[debug] [2026-10-09T16:43:49.965Z] : <<<< HTTP RESPONSE : 401
-Response Headers: {"server":"ZGS","date":"Fri, 09 Oct 2026 16:43:50 GMT","content-type":"application/json;charset=ISO-8859-1","content-length":"91","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
-
-[debug] [2026-10-09T16:43:49.966Z] : Response Body : {"status":"failure","data":{"error_code":"INVALID_TOKEN","message":"invalid oauth token"}}
-
-[info] [2026-10-09T16:44:26.630Z] : [1791564266630]  "POST"  "/server/submit_experiment/"
-[debug] [2026-10-09T16:44:26.631Z] : >>>> HTTP REQUEST : GET https://robobench-60090576328.development.catalystserverless.in/baas/v1/project/72757000000028001/project-user/current 
-
-[debug] [2026-10-09T16:44:26.771Z] : <<<< HTTP RESPONSE : 401
-Response Headers: {"server":"ZGS","date":"Fri, 09 Oct 2026 16:44:27 GMT","content-type":"application/json;charset=ISO-8859-1","content-length":"91","connection":"keep-alive","x-content-type-options":"nosniff","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=64072000; includeSubDomains; preload"}
-
-[debug] [2026-10-09T16:44:26.772Z] : Response Body : {"status":"failure","data":{"error_code":"INVALID_TOKEN","message":"invalid oauth token"}}
+[debug] [2026-10-10T06:09:40.147Z] : Response Body : {"status":"failure","data":{"error_code":"INVALID_TOKEN","message":"invalid oauth token"}}
 
