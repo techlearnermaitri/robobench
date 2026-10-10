@@ -47,11 +47,9 @@ export default function Leaderboard({ projectId, refreshKey }) {
       const token = await auth.currentUser.getIdToken();
       const res = await fetch(`${API_BASE}download-url`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ experimentId, kind: "model" }),
+        // text/plain + token in the body = no CORS preflight.
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({ idToken: token, experimentId, kind: "model" }),
       });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(body.error || `Request failed (${res.status})`);

@@ -25,11 +25,11 @@ export default function AddExperiment({ user, project, onAdded }) {
       const token = await user.getIdToken();
       const res = await fetch(API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        // text/plain + token in the body = a "simple" request, so the browser
+        // sends no CORS preflight (see backend index.js).
+        headers: { "Content-Type": "text/plain" },
         body: JSON.stringify({
+          idToken: token,
           projectId: project.id,
           algorithm: form.algorithm,
           environment: project.environment,

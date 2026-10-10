@@ -20,12 +20,14 @@ const UPLOAD_MINUTES = 15;
 const DOWNLOAD_MINUTES = 10;
 
 const app = express();
-app.use(express.json({ limit: "100kb" }));
+// text/plain is accepted too: browsers send it without a CORS preflight,
+// which Catalyst's gateway would otherwise answer without calling this function.
+app.use(express.json({ limit: "100kb", type: ["application/json", "text/plain"] }));
 
 // CORS so the browser app (localhost:5173) can call this function.
 app.use((req, res, next) => {
   res.set("Access-Control-Allow-Origin", "*");
-  res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Firebase-Token");
   res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
   if (req.method === "OPTIONS") return res.status(204).end();
   next();
@@ -38,8 +40,13 @@ function isNum(v) {
 // Verifies the Firebase ID token. Sends the error response itself and
 // returns null when the caller is not logged in.
 async function authenticate(req, res) {
+  // Catalyst's gateway tries to validate any "Authorization: Bearer" header as
+  // its own OAuth token, so the Firebase token travels in a custom header.
   const header = req.headers.authorization || "";
-  const token = header.startsWith("Bearer ") ? header.slice(7) : null;
+  const token =
+    (req.body && req.body.idToken) ||
+    req.headers["x-firebase-token"] ||
+    (header.startsWith("Bearer ") ? header.slice(7) : null);
   if (!token) {
     res.status(401).json({ error: "Missing login token" });
     return null;

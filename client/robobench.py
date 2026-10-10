@@ -70,7 +70,7 @@ def upload_file(project_id, file_path):
     if not os.path.isfile(file_path):
         raise SystemExit(f"File not found: {file_path}")
 
-    headers = {"Authorization": f"Bearer {login()}"}
+    headers = {"X-Firebase-Token": login()}
     res = requests.post(
         _api("upload-url"),
         headers=headers,
@@ -113,7 +113,7 @@ def submit(project_id, algorithm, environment, mean_reward, std_reward,
 
     res = requests.post(
         _api(),
-        headers={"Authorization": f"Bearer {login()}"},
+        headers={"X-Firebase-Token": login()},
         json=payload,
         timeout=60,
     )

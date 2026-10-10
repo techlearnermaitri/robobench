@@ -32,3 +32,4 @@ models/
 .vscode/
 .idea/.build/
 azureConfig.json
+*.log
