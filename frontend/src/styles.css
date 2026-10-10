@@ -116,3 +116,10 @@ tbody tr:first-child td { font-weight: 600; }
 .id-row { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; margin: 0 0 1.5rem; font-size: 0.9rem; }
 .id-row code { background: #e8ebe6; padding: 0.15rem 0.4rem; border-radius: 3px; }
 input[readonly] { background: #eef0eb; color: var(--muted); }
+
+
+
+/* ---- Verification badges (append to the end of styles.css) ---- */
+.badge { font-size: 0.75rem; font-weight: 600; color: var(--muted); }
+.badge.ok { color: var(--accent); }
+.badge.bad { color: var(--danger); }

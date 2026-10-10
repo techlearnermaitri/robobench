@@ -33,3 +33,4 @@ models/
 .idea/.build/
 azureConfig.json
 *.log
+workerConfig.json

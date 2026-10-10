@@ -2,6 +2,24 @@ import { useEffect, useMemo, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "./firebase";
 
+function StatusBadge({ row }) {
+  const v = row.verification || {};
+  if (row.status === "validated") {
+    return (
+      <span className="badge ok" title={`Re-measured ${Number(v.measuredMean).toFixed(1)}`}>
+        Verified
+      </span>
+    );
+  }
+  if (row.status === "rejected") {
+    return <span className="badge bad" title={v.note || ""}>Rejected</span>;
+  }
+  if (row.status === "verifying") return <span className="badge">Checking…</span>;
+  if (row.status === "unsupported") return <span className="badge" title={v.note || ""}>Not checkable</span>;
+  if (!row.artifacts?.model) return <span className="badge" title="No model file uploaded">No model</span>;
+  return <span className="badge">Pending</span>;
+}
+
 const API_BASE = (import.meta.env.VITE_API_URL || "").replace(/\/?$/, "/");
 
 export default function Leaderboard({ projectId, refreshKey }) {
@@ -78,6 +96,7 @@ export default function Leaderboard({ projectId, refreshKey }) {
               <th className="num">Std</th>
               <th className="num">Training time (s)</th>
               <th>Model</th>
+              <th>Check</th>
             </tr>
           </thead>
           <tbody>
@@ -100,6 +119,9 @@ export default function Leaderboard({ projectId, refreshKey }) {
                   ) : (
                     <span className="muted">—</span>
                   )}
+                </td>
+                <td>
+                  <StatusBadge row={r} />
                 </td>
               </tr>
             ))}

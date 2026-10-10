@@ -246,4 +246,7 @@ app.post("/download-url", async (req, res) => {
   }
 });
 
+// ---- Verification worker endpoints (/worker/next, /worker/result) ----
+require("./worker")(app, { db, FieldValue, azure });
+
 module.exports = app;
