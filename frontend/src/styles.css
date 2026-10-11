@@ -157,3 +157,10 @@ input[type="checkbox"] { width: 1.05rem; height: 1.05rem; accent-color: var(--ac
 .swatch { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 2px; margin-right: 0.15rem; }
 .table-wrap tbody th { text-align: left; font-weight: 600; color: var(--muted); font-size: 0.85rem; }
 td.best { font-weight: 700; color: var(--accent); }
+
+
+/* ---- Shared projects (append to the end of styles.css) ---- */
+.name-form { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+.name-form input { padding: 0.3rem 0.5rem; width: 11rem; }
+label.check { flex-direction: row; align-items: center; gap: 0.5rem; }
+.owner-toggle { margin: 0 0 1.25rem; font-size: 0.9rem; }

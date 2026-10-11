@@ -17,6 +17,7 @@ const ALLOWED_ALGORITHMS = ["PPO", "A2C", "DQN"];
 const ALLOWED_EXTENSIONS = ["zip", "png", "csv", "json", "txt", "mp4"];
 const ARTIFACT_KINDS = ["model", "plot"];
 const MAX_CURVE_POINTS = 200;
+const MAX_SUBMISSIONS_PER_USER = 50; // per project, for people who don't own it
 const UPLOAD_MINUTES = 15;
 const DOWNLOAD_MINUTES = 10;
 
@@ -64,16 +65,26 @@ function validProjectId(id) {
   return typeof id === "string" && /^[A-Za-z0-9_-]{1,64}$/.test(id);
 }
 
-// Loads a project and checks that the caller owns it.
-// Returns { project } or { status, error }.
-async function loadOwnedProject(projectId, uid) {
+// Loads a project and checks that the caller may submit to it: the owner
+// always can, everyone else only if the owner opened the project.
+// Returns { project, isOwner } or { status, error }.
+async function loadSubmittableProject(projectId, uid) {
   const snap = await db.collection("projects").doc(projectId).get();
   if (!snap.exists) return { status: 404, error: "Project not found" };
   const project = snap.data();
-  if (project.ownerId !== uid) {
-    return { status: 403, error: "You can only use your own projects" };
+  const isOwner = project.ownerId === uid;
+  if (!isOwner && project.submissions !== "anyone") {
+    return { status: 403, error: "This project only accepts submissions from its owner" };
   }
-  return { project };
+  return { project, isOwner };
+}
+
+// The public name shown next to a result. It comes from the verified login
+// token, so a client cannot choose someone else's name.
+function displayNameFrom(decoded) {
+  const raw = typeof decoded.name === "string" ? decoded.name : "";
+  const clean = raw.replace(/[\u0000-\u001f<>]/g, "").trim().slice(0, 40).trim();
+  return clean || `user-${decoded.uid.slice(0, 6)}`;
 }
 
 // Returns { error } or { data } with a cleaned experiment object.
@@ -188,12 +199,26 @@ app.post(["/", "/submit"], async (req, res) => {
   }
 
   try {
-    const owned = await loadOwnedProject(data.projectId, decoded.uid);
+    const owned = await loadSubmittableProject(data.projectId, decoded.uid);
     if (owned.error) return res.status(owned.status).json({ error: owned.error });
     if (owned.project.environment !== data.environment) {
       return res.status(400).json({
         error: `environment must match the project (${owned.project.environment})`,
       });
+    }
+
+    if (!owned.isOwner) {
+      const mine = await db
+        .collection("experiments")
+        .where("projectId", "==", data.projectId)
+        .where("ownerId", "==", decoded.uid)
+        .limit(MAX_SUBMISSIONS_PER_USER)
+        .get();
+      if (mine.size >= MAX_SUBMISSIONS_PER_USER) {
+        return res.status(429).json({
+          error: `Limit of ${MAX_SUBMISSIONS_PER_USER} submissions per person reached for this project`,
+        });
+      }
     }
 
     let artifacts = {};
@@ -211,6 +236,7 @@ app.post(["/", "/submit"], async (req, res) => {
       artifacts,
       ...(curve ? { curve } : {}),
       ownerId: decoded.uid,
+      ownerName: displayNameFrom(decoded),
       status: "submitted",
       createdAt: FieldValue.serverTimestamp(),
     });
@@ -244,7 +270,7 @@ app.post("/upload-url", async (req, res) => {
   }
 
   try {
-    const owned = await loadOwnedProject(projectId, decoded.uid);
+    const owned = await loadSubmittableProject(projectId, decoded.uid);
     if (owned.error) return res.status(owned.status).json({ error: owned.error });
 
     const blobPath = `${projectId}/${decoded.uid}/${crypto.randomUUID()}/${filename}`;

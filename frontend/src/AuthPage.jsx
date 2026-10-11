@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "./firebase";
 
@@ -9,6 +10,7 @@ export default function AuthPage() {
   const [mode, setMode] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -20,7 +22,12 @@ export default function AuthPage() {
       if (mode === "login") {
         await signInWithEmailAndPassword(auth, email, password);
       } else {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        const name = displayName.trim().slice(0, 40);
+        if (name) {
+          await updateProfile(cred.user, { displayName: name });
+          await cred.user.getIdToken(true); // refresh so the name is in the token
+        }
       }
     } catch (err) {
       setError(err.message.replace("Firebase: ", ""));
@@ -37,6 +44,17 @@ export default function AuthPage() {
       </p>
 
       <form onSubmit={handleSubmit}>
+        {mode === "signup" && (
+          <label>
+            Display name (shown next to your results)
+            <input
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              maxLength={40}
+              placeholder="e.g. Maitri"
+            />
+          </label>
+        )}
         <label>
           Email
           <input

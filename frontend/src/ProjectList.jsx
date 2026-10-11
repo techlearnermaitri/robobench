@@ -7,6 +7,7 @@ const emptyForm = {
   category: "Reinforcement Learning",
   environment: "CartPole-v1",
   framework: "Stable-Baselines3",
+  openToAll: false,
 };
 
 export default function ProjectList({ user, onOpen }) {
@@ -47,6 +48,7 @@ export default function ProjectList({ user, onOpen }) {
         category: form.category,
         environment: form.environment.trim(),
         framework: form.framework.trim(),
+        submissions: form.openToAll ? "anyone" : "owner",
       };
       const ref = await addDoc(collection(db, "projects"), {
         ...data,
@@ -77,6 +79,7 @@ export default function ProjectList({ user, onOpen }) {
               </span>
               <span className="tag">
                 {p.ownerId === user.uid ? "Yours" : p.category}
+                {p.submissions === "anyone" ? " · Open to all" : ""}
               </span>
             </button>
           ))}
@@ -111,6 +114,14 @@ export default function ProjectList({ user, onOpen }) {
           <label>
             Framework
             <input value={form.framework} onChange={set("framework")} required />
+          </label>
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={form.openToAll}
+              onChange={(e) => setForm({ ...form, openToAll: e.target.checked })}
+            />
+            Let anyone submit to this project
           </label>
           <button type="submit" disabled={busy}>
             Create project

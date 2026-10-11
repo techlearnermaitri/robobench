@@ -127,6 +127,7 @@ export default function Leaderboard({ projectId, refreshKey }) {
               <th>Compare</th>
               <th>Rank</th>
               <th>Algorithm</th>
+              <th>By</th>
               <th className="num">Mean reward</th>
               <th className="num">Std</th>
               <th className="num">Training time (s)</th>
@@ -150,6 +151,12 @@ export default function Leaderboard({ projectId, refreshKey }) {
                   </td>
                   <td>{r.rank}</td>
                   <td>{r.algorithm}</td>
+                  <td>
+                    {r.ownerName || <span className="muted">—</span>}
+                    {r.ownerId === auth.currentUser?.uid && (
+                      <span className="muted"> (you)</span>
+                    )}
+                  </td>
                   <td className="num">{Number(r.meanReward).toFixed(1)}</td>
                   <td className="num">{Number(r.stdReward).toFixed(1)}</td>
                   <td className="num">{Number(r.trainingTime).toFixed(1)}</td>
@@ -181,7 +188,7 @@ export default function Leaderboard({ projectId, refreshKey }) {
                 </tr>
                 {plot && plot.id === r.id && (
                   <tr className="plot-row">
-                    <td colSpan={9}>
+                    <td colSpan={10}>
                       {plot.loading && <span className="muted">Loading curve…</span>}
                       {plot.error && <span className="error">{plot.error}</span>}
                       {plot.url && (

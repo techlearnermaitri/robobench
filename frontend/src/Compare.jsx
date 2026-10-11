@@ -104,6 +104,7 @@ function Chart({ series }) {
 
 const METRICS = [
   { label: "Algorithm", text: (r) => r.algorithm },
+  { label: "Submitted by", text: (r) => r.ownerName || "—" },
   {
     label: "Mean reward",
     text: (r) => Number(r.meanReward).toFixed(1),
@@ -124,7 +125,7 @@ const METRICS = [
 export default function Compare({ rows }) {
   const series = rows.map((r, i) => ({
     id: r.id,
-    label: `#${r.rank} ${r.algorithm}`,
+    label: `#${r.rank} ${r.algorithm}${r.ownerName ? ` · ${r.ownerName}` : ""}`,
     color: COLORS[i % COLORS.length],
     dash: DASHES[i % DASHES.length],
     curve:
