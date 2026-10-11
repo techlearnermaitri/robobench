@@ -9,6 +9,7 @@ Reads settings from client/.env:
     ROBOBENCH_PROJECT_ID=...    (optional default; copy it from the project page)
 """
 
+import mimetypes
 import os
 import time
 
@@ -85,7 +86,13 @@ def upload_file(project_id, file_path):
         put = requests.put(
             info["uploadUrl"],
             data=f,
-            headers={"x-ms-blob-type": "BlockBlob"},
+            headers={
+                "x-ms-blob-type": "BlockBlob",
+                # lets the browser show images (like the reward curve) inline
+                "x-ms-blob-content-type": (
+                    mimetypes.guess_type(file_path)[0] or "application/octet-stream"
+                ),
+            },
             timeout=600,
         )
     if put.status_code not in (200, 201):

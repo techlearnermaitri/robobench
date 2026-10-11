@@ -123,3 +123,9 @@ input[readonly] { background: #eef0eb; color: var(--muted); }
 .badge { font-size: 0.75rem; font-weight: 600; color: var(--muted); }
 .badge.ok { color: var(--accent); }
 .badge.bad { color: var(--danger); }
+
+
+
+/* ---- Reward curve (append to the end of styles.css) ---- */
+.plot-row td { background: var(--paper); white-space: normal; }
+.plot { display: block; max-width: 100%; height: auto; background: #fff; border: 1px solid var(--line); border-radius: 4px; }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "./firebase";
 
@@ -27,6 +27,7 @@ export default function Leaderboard({ projectId, refreshKey }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [downloading, setDownloading] = useState("");
+  const [plot, setPlot] = useState(null); // { id, url, loading, error }
 
   useEffect(() => {
     async function load() {
@@ -58,24 +59,43 @@ export default function Leaderboard({ projectId, refreshKey }) {
     [all]
   );
 
+  // Asks the API for a short-lived link to one of an experiment's files.
+  async function getLink(experimentId, kind) {
+    const token = await auth.currentUser.getIdToken();
+    const res = await fetch(`${API_BASE}download-url`, {
+      method: "POST",
+      // text/plain + token in the body = no CORS preflight.
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({ idToken: token, experimentId, kind }),
+    });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(body.error || `Request failed (${res.status})`);
+    return body.url;
+  }
+
   async function download(experimentId) {
     setDownloading(experimentId);
     setError("");
     try {
-      const token = await auth.currentUser.getIdToken();
-      const res = await fetch(`${API_BASE}download-url`, {
-        method: "POST",
-        // text/plain + token in the body = no CORS preflight.
-        headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify({ idToken: token, experimentId, kind: "model" }),
-      });
-      const body = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(body.error || `Request failed (${res.status})`);
-      window.location.href = body.url;
+      window.location.href = await getLink(experimentId, "model");
     } catch (err) {
       setError(err.message);
     } finally {
       setDownloading("");
+    }
+  }
+
+  async function togglePlot(experimentId) {
+    if (plot && plot.id === experimentId) {
+      setPlot(null); // clicking again hides it
+      return;
+    }
+    setPlot({ id: experimentId, url: "", loading: true, error: "" });
+    try {
+      const url = await getLink(experimentId, "plot");
+      setPlot({ id: experimentId, url, loading: false, error: "" });
+    } catch (err) {
+      setPlot({ id: experimentId, url: "", loading: false, error: err.message });
     }
   }
 
@@ -96,12 +116,14 @@ export default function Leaderboard({ projectId, refreshKey }) {
               <th className="num">Std</th>
               <th className="num">Training time (s)</th>
               <th>Model</th>
+              <th>Curve</th>
               <th>Check</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r, i) => (
-              <tr key={r.id}>
+              <Fragment key={r.id}>
+              <tr>
                 <td>{i + 1}</td>
                 <td>{r.algorithm}</td>
                 <td className="num">{Number(r.meanReward).toFixed(1)}</td>
@@ -121,9 +143,34 @@ export default function Leaderboard({ projectId, refreshKey }) {
                   )}
                 </td>
                 <td>
+                  {r.artifacts?.plot ? (
+                    <button className="ghost" onClick={() => togglePlot(r.id)}>
+                      {plot && plot.id === r.id ? "Hide" : "View"}
+                    </button>
+                  ) : (
+                    <span className="muted">—</span>
+                  )}
+                </td>
+                <td>
                   <StatusBadge row={r} />
                 </td>
               </tr>
+              {plot && plot.id === r.id && (
+                <tr className="plot-row">
+                  <td colSpan={8}>
+                    {plot.loading && <span className="muted">Loading curve…</span>}
+                    {plot.error && <span className="error">{plot.error}</span>}
+                    {plot.url && (
+                      <img
+                        className="plot"
+                        src={plot.url}
+                        alt={`Training reward curve for ${r.algorithm}`}
+                      />
+                    )}
+                  </td>
+                </tr>
+              )}
+              </Fragment>
             ))}
           </tbody>
         </table>
