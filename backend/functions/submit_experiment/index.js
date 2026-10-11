@@ -16,6 +16,7 @@ const db = getFirestore();
 const ALLOWED_ALGORITHMS = ["PPO", "A2C", "DQN"];
 const ALLOWED_EXTENSIONS = ["zip", "png", "csv", "json", "txt", "mp4"];
 const ARTIFACT_KINDS = ["model", "plot"];
+const MAX_CURVE_POINTS = 200;
 const UPLOAD_MINUTES = 15;
 const DOWNLOAD_MINUTES = 10;
 
@@ -113,6 +114,37 @@ function validate(body) {
   };
 }
 
+// A small training curve used by the comparison view. Returns { error } or { curve }.
+function cleanCurve(curve) {
+  if (typeof curve !== "object" || curve === null || Array.isArray(curve)) {
+    return { error: "curve must be an object" };
+  }
+  const { steps, rewards } = curve;
+  if (!Array.isArray(steps) || !Array.isArray(rewards) || steps.length !== rewards.length) {
+    return { error: "curve.steps and curve.rewards must be arrays of the same length" };
+  }
+  if (steps.length < 2 || steps.length > MAX_CURVE_POINTS) {
+    return { error: `curve must have between 2 and ${MAX_CURVE_POINTS} points` };
+  }
+  for (let i = 0; i < steps.length; i++) {
+    if (!isNum(steps[i]) || !isNum(rewards[i])) {
+      return { error: "curve values must be numbers" };
+    }
+    if (steps[i] < 0 || steps[i] > 1e10 || Math.abs(rewards[i]) > 1e9) {
+      return { error: "curve values are out of range" };
+    }
+    if (i > 0 && steps[i] <= steps[i - 1]) {
+      return { error: "curve.steps must be increasing" };
+    }
+  }
+  return {
+    curve: {
+      steps: steps.map((v) => Math.round(v)),
+      rewards: rewards.map((v) => Math.round(v * 100) / 100),
+    },
+  };
+}
+
 // Artifact paths must be inside this user's own upload folder for this
 // project, and the file must really exist in Azure.
 async function cleanArtifacts(artifacts, projectId, uid) {
@@ -148,6 +180,13 @@ app.post(["/", "/submit"], async (req, res) => {
   const { error, data } = validate(req.body);
   if (error) return res.status(400).json({ error });
 
+  let curve = null;
+  if (req.body.curve !== undefined && req.body.curve !== null) {
+    const checked = cleanCurve(req.body.curve);
+    if (checked.error) return res.status(400).json({ error: checked.error });
+    curve = checked.curve;
+  }
+
   try {
     const owned = await loadOwnedProject(data.projectId, decoded.uid);
     if (owned.error) return res.status(owned.status).json({ error: owned.error });
@@ -170,6 +209,7 @@ app.post(["/", "/submit"], async (req, res) => {
     const ref = await db.collection("experiments").add({
       ...data,
       artifacts,
+      ...(curve ? { curve } : {}),
       ownerId: decoded.uid,
       status: "submitted",
       createdAt: FieldValue.serverTimestamp(),

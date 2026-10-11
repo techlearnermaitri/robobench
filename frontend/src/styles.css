@@ -129,3 +129,31 @@ input[readonly] { background: #eef0eb; color: var(--muted); }
 /* ---- Reward curve (append to the end of styles.css) ---- */
 .plot-row td { background: var(--paper); white-space: normal; }
 .plot { display: block; max-width: 100%; height: auto; background: #fff; border: 1px solid var(--line); border-radius: 4px; }
+
+
+
+
+
+
+/* ---- Comparison view (append to the end of styles.css) ---- */
+.hint { margin: 0 0 0.6rem; }
+.hint .ghost { padding: 0 0.25rem; }
+input[type="checkbox"] { width: 1.05rem; height: 1.05rem; accent-color: var(--accent); }
+
+.compare { margin-top: 1.75rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.compare h3 { font-size: 1rem; margin: 0 0 0.75rem; }
+
+.chart { display: block; width: 100%; height: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .axis { stroke: var(--muted); stroke-width: 1; }
+.chart text { fill: var(--muted); font-size: 11px; font-family: inherit; }
+.chart .axis-title { font-size: 12px; }
+.chart .line { fill: none; stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; list-style: none; padding: 0; margin: 0.75rem 0 1rem; font-size: 0.9rem; }
+.legend li { display: flex; align-items: center; gap: 0.45rem; }
+.legend svg { width: 28px; height: 8px; }
+
+.swatch { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 2px; margin-right: 0.15rem; }
+.table-wrap tbody th { text-align: left; font-weight: 600; color: var(--muted); font-size: 0.85rem; }
+td.best { font-weight: 700; color: var(--accent); }

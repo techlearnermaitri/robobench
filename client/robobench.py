@@ -101,10 +101,11 @@ def upload_file(project_id, file_path):
 
 
 def submit(project_id, algorithm, environment, mean_reward, std_reward,
-           episodes, training_time, artifacts=None):
+           episodes, training_time, artifacts=None, curve=None):
     """Send one experiment to the Catalyst API. Returns the new experiment id.
 
     artifacts: optional dict like {"model": blob_path, "plot": blob_path}
+    curve: optional {"steps": [...], "rewards": [...]} used by the comparison view
     """
     payload = {
         "projectId": project_id,
@@ -117,6 +118,8 @@ def submit(project_id, algorithm, environment, mean_reward, std_reward,
     }
     if artifacts:
         payload["artifacts"] = artifacts
+    if curve:
+        payload["curve"] = curve
 
     res = requests.post(
         _api(),

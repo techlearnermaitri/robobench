@@ -22,7 +22,7 @@ from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.monitor import Monitor
 
 import robobench  # loads client/.env on import
-from plotting import save_reward_curve
+from plotting import downsample_curve, save_reward_curve
 
 ALGOS = {"PPO": PPO, "A2C": A2C, "DQN": DQN}
 ENV_ID = "CartPole-v1"
@@ -38,7 +38,7 @@ def main():
     p.add_argument("--no-upload", action="store_true",
                    help="skip uploading anything to Azure")
     p.add_argument("--no-plot", action="store_true",
-                   help="skip the reward curve")
+                   help="skip the reward curve (image and comparison data)")
     args = p.parse_args()
 
     if not args.project_id:
@@ -66,6 +66,9 @@ def main():
     print(f"mean_reward={mean_reward:.1f}  std={std_reward:.1f}  "
           f"time={training_time:.1f}s")
 
+    # Compact curve stored in Firestore so the website can overlay runs.
+    curve = None if args.no_plot else downsample_curve(train_rewards, train_lengths)
+
     artifacts = {}
     with tempfile.TemporaryDirectory() as tmp:
         if not args.no_upload:
@@ -92,6 +95,7 @@ def main():
             args.eval_episodes,
             training_time,
             artifacts=artifacts,
+            curve=curve,
         )
     print(f"Saved experiment {exp_id}")
 
