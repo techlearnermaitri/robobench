@@ -10,6 +10,7 @@ const {
 
 const CONTAINER = "artifacts";
 let cached; // undefined = not loaded yet, null = not configured
+let sourceName = "missing";
 
 // Reads the connection string from the environment (deployed) or from
 // azureConfig.json next to this file (local, gitignored).
@@ -17,9 +18,11 @@ function load() {
   if (cached !== undefined) return cached;
 
   let conn = process.env.AZURE_STORAGE_CONNECTION_STRING;
+  if (conn) sourceName = "env";
   if (!conn) {
     try {
       conn = require("./azureConfig.json").connectionString;
+      if (conn) sourceName = "file";
     } catch (e) {
       conn = null;
     }
@@ -44,6 +47,12 @@ function load() {
 
 function isConfigured() {
   return load() !== null;
+}
+
+// "env", "file" or "missing": where the connection string came from.
+function source() {
+  load();
+  return sourceName;
 }
 
 // mode: "write" (create + write, one file) or "read" (download).
@@ -73,4 +82,4 @@ async function blobExists(blobPath) {
   return container.getBlobClient(blobPath).exists();
 }
 
-module.exports = { isConfigured, makeSasUrl, blobExists, CONTAINER };
+module.exports = { isConfigured, makeSasUrl, blobExists, source, CONTAINER };

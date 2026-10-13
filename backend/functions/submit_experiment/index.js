@@ -5,8 +5,38 @@ const express = require("express");
 const { initializeApp, cert, getApps } = require("firebase-admin/app");
 const { getAuth } = require("firebase-admin/auth");
 const { getFirestore, FieldValue } = require("firebase-admin/firestore");
-const serviceAccount = require("./serviceAccountKey.json");
 const azure = require("./azure");
+const registerWorkerRoutes = require("./worker");
+
+// Firebase credentials come from the FIREBASE_SERVICE_ACCOUNT environment
+// variable (the key file's JSON, or that JSON base64-encoded). The key file
+// next to this script is only a fallback for local development.
+function loadServiceAccount() {
+  const raw = (process.env.FIREBASE_SERVICE_ACCOUNT || "").trim();
+  let account;
+  let source;
+  if (raw) {
+    const text = raw.startsWith("{") ? raw : Buffer.from(raw, "base64").toString("utf8");
+    account = JSON.parse(text);
+    source = "env";
+  } else {
+    try {
+      account = require("./serviceAccountKey.json");
+      source = "file";
+    } catch (e) {
+      throw new Error(
+        "Firebase credentials not found: set FIREBASE_SERVICE_ACCOUNT or add serviceAccountKey.json"
+      );
+    }
+  }
+  // Keys pasted through some forms arrive with literal \n instead of newlines.
+  if (typeof account.private_key === "string") {
+    account.private_key = account.private_key.replace(/\\n/g, "\n");
+  }
+  return { account, source };
+}
+
+const { account: serviceAccount, source: firebaseSource } = loadServiceAccount();
 
 if (getApps().length === 0) {
   initializeApp({ credential: cert(serviceAccount) });
@@ -312,7 +342,19 @@ app.post("/download-url", async (req, res) => {
   }
 });
 
+// ---- Health check: reports WHERE each secret was loaded from, never the values ----
+app.get("/health", (req, res) => {
+  res.json({
+    ok: true,
+    secrets: {
+      firebase: firebaseSource,
+      azure: azure.source(),
+      worker: registerWorkerRoutes.secretSource(),
+    },
+  });
+});
+
 // ---- Verification worker endpoints (/worker/next, /worker/result) ----
-require("./worker")(app, { db, FieldValue, azure });
+registerWorkerRoutes(app, { db, FieldValue, azure });
 
 module.exports = app;

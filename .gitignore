@@ -34,3 +34,4 @@ models/
 azureConfig.json
 *.log
 workerConfig.json
+catalyst-config.json.orig

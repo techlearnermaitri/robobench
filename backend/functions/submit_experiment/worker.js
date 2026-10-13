@@ -27,6 +27,16 @@ function loadSecret() {
   return secret || null;
 }
 
+// "env", "file" or "missing": where the worker secret comes from.
+function secretSource() {
+  if (process.env.WORKER_SECRET) return "env";
+  try {
+    return require("./workerConfig.json").secret ? "file" : "missing";
+  } catch (e) {
+    return "missing";
+  }
+}
+
 function secretMatches(provided, expected) {
   if (typeof provided !== "string" || !expected) return false;
   const a = crypto.createHash("sha256").update(provided).digest();
@@ -212,3 +222,5 @@ module.exports = function registerWorkerRoutes(app, { db, FieldValue, azure }) {
     }
   });
 };
+
+module.exports.secretSource = secretSource;
